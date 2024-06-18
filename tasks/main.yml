@@ -43,6 +43,8 @@
   when: deployment_newrelic_enabled
 
 - name: Transfer an artifact to the remote server
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -56,6 +58,8 @@
   notify: restart_app
 
 - name: Setup environment variables
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.template:
     src: env.j2
     dest: "{{ item.dest }}"
@@ -69,6 +73,8 @@
   notify: restart_app
 
 - name: Debug variables
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.debug:
     msg: "Service: {{ item.service_name }}, Workdir: {{ item.deployment_workdir }}"
   loop:
@@ -77,6 +83,8 @@
     - { service_name: "{{ deployment_service_3 }}", deployment_workdir: "{{ deployment_workdir_3 }}" }
 
 - name: Create systemd services
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.template:
     src: systemd.service.j2
     dest: "/etc/systemd/system/{{ item.service_name }}.service"
@@ -90,6 +98,8 @@
   notify: restart_app
 
 - name: Ensure systemd services are started and enabled
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.systemd:
     name: "{{ item.service_name }}"
     state: started
