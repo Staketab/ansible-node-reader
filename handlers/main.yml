@@ -1,5 +1,7 @@
 ---
 - name: restart_app
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.systemd:
     name: "{{ deployment_service }}"
     state: restarted

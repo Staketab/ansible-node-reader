@@ -72,15 +72,15 @@
     - { dest: "{{ deployment_workdir_3 }}/.env", deployment_port: "{{ deployment_port_3 }}" }
   notify: restart_app
 
-- name: Debug variables
-  vars:
-    ansible_python_interpreter: /usr/bin/python3.10
-  ansible.builtin.debug:
-    msg: "Service: {{ item.service_name }}, Workdir: {{ item.deployment_workdir }}"
-  loop:
-    - { service_name: "{{ deployment_service_1 }}", deployment_workdir: "{{ deployment_workdir_1 }}" }
-    - { service_name: "{{ deployment_service_2 }}", deployment_workdir: "{{ deployment_workdir_2 }}" }
-    - { service_name: "{{ deployment_service_3 }}", deployment_workdir: "{{ deployment_workdir_3 }}" }
+# - name: Debug variables
+#   vars:
+#     ansible_python_interpreter: /usr/bin/python3.10
+#   ansible.builtin.debug:
+#     msg: "Service: {{ item.service_name }}, Workdir: {{ item.deployment_workdir }}"
+#   loop:
+#     - { service_name: "{{ deployment_service_1 }}", deployment_workdir: "{{ deployment_workdir_1 }}" }
+#     - { service_name: "{{ deployment_service_2 }}", deployment_workdir: "{{ deployment_workdir_2 }}" }
+#     - { service_name: "{{ deployment_service_3 }}", deployment_workdir: "{{ deployment_workdir_3 }}" }
 
 - name: Create systemd services
   vars:
