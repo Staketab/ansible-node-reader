@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: staketab
+  role_name: java-deployment
+  description: Deploy a Java application
+  company: Staketab
+  license: MIT
+  min_ansible_version: 2.10
+  platforms:
+  - name: Debian
+    versions:
+    - bullseye
+  galaxy_tags:
+  - java
+  - backend
+  - deployment
+
+dependencies: []

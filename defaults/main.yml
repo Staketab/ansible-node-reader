@@ -1,0 +1,18 @@
+---
+deployment_artifact: app.jar
+
+deployment_workdir: /opt/app
+
+deployment_user: root
+deployment_group: root
+
+deployment_spring_profile: development
+deployment_server_port: 8080
+
+deployment_service: backend
+
+deployment_newrelic_enabled: false
+deployment_newrelic_version: current
+deployment_newrelic_dir: /opt/newrelic
+
+deployment_xx_enabled: false

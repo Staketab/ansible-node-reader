@@ -1,0 +1,5 @@
+---
+- name: restart_app
+  ansible.builtin.systemd:
+    name: "{{ deployment_service }}"
+    state: restarted

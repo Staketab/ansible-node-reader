@@ -1,0 +1,17 @@
+[Unit]
+Description=Java backend service
+After=network.target
+
+[Service]
+Type=simple
+User={{ deployment_user }}
+Group={{ deployment_group }}
+EnvironmentFile={{ deployment_workdir }}/.env
+WorkingDirectory={{ deployment_workdir }}
+ExecStart=/usr/bin/java {% if deployment_newrelic_enabled %}-javaagent:{{ deployment_newrelic_dir }}/newrelic.jar{% endif %} -jar {% if deployment_xx_enabled %}${XMS} ${XMX} ${XX} ${XXASP}{% endif %} -Dspring.profiles.active={{ deployment_spring_profile }} {{ deployment_workdir }}/app.jar
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
