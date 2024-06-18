@@ -62,6 +62,14 @@
     - { dest: "{{ deployment_workdir_3 }}/.env" }
   notify: restart_app
 
+- name: Debug variables
+  ansible.builtin.debug:
+    msg: "Service: {{ item.service_name }}, Workdir: {{ item.deployment_workdir }}"
+  loop:
+    - { service_name: "{{ deployment_service_1 }}", deployment_workdir: "{{ deployment_workdir_1 }}" }
+    - { service_name: "{{ deployment_service_2 }}", deployment_workdir: "{{ deployment_workdir_2 }}" }
+    - { service_name: "{{ deployment_service_3 }}", deployment_workdir: "{{ deployment_workdir_3 }}" }
+
 - name: Create systemd services
   ansible.builtin.template:
     src: systemd.service.j2
