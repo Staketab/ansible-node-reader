@@ -60,22 +60,6 @@
     - { dest: "{{ deployment_workdir_3 }}/.env" }
   notify: restart_app
 
-- name: Create systemd service
-  ansible.builtin.template:
-    src: systemd.service.j2
-    dest: "/etc/systemd/system/{{ deployment_service }}.service"
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart_app
-
-- name: Ensure systemd service is started and enabled
-  ansible.builtin.systemd:
-    name: "{{ deployment_service }}"
-    state: started
-    enabled: true
-    daemon_reload: true
-
 - name: Create systemd services
   ansible.builtin.template:
     src: systemd.service.j2
@@ -87,7 +71,6 @@
     - { service_name: "{{ deployment_service_1 }}", deployment_workdir: "{{ deployment_workdir_1 }}" }
     - { service_name: "{{ deployment_service_2 }}", deployment_workdir: "{{ deployment_workdir_2 }}" }
     - { service_name: "{{ deployment_service_3 }}", deployment_workdir: "{{ deployment_workdir_3 }}" }
-    # Добавьте сюда другие сервисы, если нужно
   notify: restart_app
 
 - name: Ensure systemd services are started and enabled
