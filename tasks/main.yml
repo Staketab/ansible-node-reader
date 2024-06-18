@@ -12,6 +12,8 @@
     - "{{ deployment_workdir_3 }}"
 
 - name: Download New Relic agent
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.unarchive:
     src: "https://download.newrelic.com/newrelic/java-agent/newrelic-agent/{{ deployment_newrelic_version }}/newrelic-java.zip"
     dest: /tmp
@@ -21,12 +23,16 @@
   when: deployment_newrelic_enabled
 
 - name: ensure {{ deployment_newrelic_dir }} exist
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.file:
     path: "{{ deployment_newrelic_dir }}"
     state: directory
     mode: 0755
 
 - name: Install New Relic agent
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   ansible.builtin.copy:
     src: /tmp/newrelic/newrelic.jar
     dest: "{{ deployment_newrelic_dir }}/newrelic.jar"
