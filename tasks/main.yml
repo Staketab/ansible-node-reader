@@ -67,9 +67,9 @@
     group: "{{ deployment_group }}"
     mode: 0640
   with_items:
-    - { dest: "{{ deployment_workdir_1 }}/.env", deployment_port: "{{ deployment_port_1 }}" }
-    - { dest: "{{ deployment_workdir_2 }}/.env", deployment_port: "{{ deployment_port_2 }}" }
-    - { dest: "{{ deployment_workdir_3 }}/.env", deployment_port: "{{ deployment_port_3 }}" }
+    - { dest: "{{ deployment_workdir_1 }}/.env", deployment_port: "{{ deployment_port_1 }}", deployment_ordinal: "{{ deployment_ordinal_1 }}" }
+    - { dest: "{{ deployment_workdir_2 }}/.env", deployment_port: "{{ deployment_port_2 }}", deployment_ordinal: "{{ deployment_ordinal_2 }}" }
+    - { dest: "{{ deployment_workdir_3 }}/.env", deployment_port: "{{ deployment_port_3 }}", deployment_ordinal: "{{ deployment_ordinal_3 }}" }
   notify: restart_app
 
 # - name: Debug variables
