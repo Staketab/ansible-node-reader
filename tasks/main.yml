@@ -10,7 +10,6 @@
     - "{{ deployment_workdir_1 }}"
     - "{{ deployment_workdir_2 }}"
     - "{{ deployment_workdir_3 }}"
-  when: item is defined and item != ""
 
 - name: Download New Relic agent
   vars:
@@ -21,8 +20,7 @@
     owner: "{{ deployment_user }}"
     group: "{{ deployment_group }}"
     remote_src: true
-  when: deployment_newrelic_enabled | default(false)
-  notify: restart_app
+  when: deployment_newrelic_enabled
 
 - name: ensure {{ deployment_newrelic_dir }} exist
   vars:
@@ -31,7 +29,6 @@
     path: "{{ deployment_newrelic_dir }}"
     state: directory
     mode: 0755
-  when: deployment_newrelic_dir is defined and deployment_newrelic_dir != ""
 
 - name: Install New Relic agent
   vars:
@@ -43,7 +40,7 @@
     group: "{{ deployment_group }}"
     remote_src: yes
     mode: 0755
-  when: deployment_newrelic_enabled | default(false) and deployment_newrelic_dir is defined and deployment_newrelic_dir != ""
+  when: deployment_newrelic_enabled
 
 - name: Transfer an artifact to the remote server
   vars:
@@ -58,9 +55,6 @@
     - { src: "{{ deployment_artifact }}", dest: "{{ deployment_workdir_1 }}/app.jar" }
     - { src: "{{ deployment_artifact }}", dest: "{{ deployment_workdir_2 }}/app.jar" }
     - { src: "{{ deployment_artifact }}", dest: "{{ deployment_workdir_3 }}/app.jar" }
-  when: 
-    - item.src is defined and item.src != ""
-    - item.dest is defined and item.dest != ""
   notify: restart_app
 
 - name: Setup environment variables
@@ -76,11 +70,6 @@
     - { dest: "{{ deployment_workdir_1 }}/.env", deployment_port: "{{ deployment_port_1 }}", deployment_ordinal: "{{ deployment_ordinal_1 }}", deployment_sui_node_api: "{{ deployment_sui_node_api_1 }}" }
     - { dest: "{{ deployment_workdir_2 }}/.env", deployment_port: "{{ deployment_port_2 }}", deployment_ordinal: "{{ deployment_ordinal_2 }}", deployment_sui_node_api: "{{ deployment_sui_node_api_2 }}" }
     - { dest: "{{ deployment_workdir_3 }}/.env", deployment_port: "{{ deployment_port_3 }}", deployment_ordinal: "{{ deployment_ordinal_3 }}", deployment_sui_node_api: "{{ deployment_sui_node_api_3 }}" }
-  when: 
-    - item.dest is defined and item.dest != ""
-    - item.deployment_port is defined and item.deployment_port != ""
-    - item.deployment_ordinal is defined and item.deployment_ordinal != ""
-    - item.deployment_sui_node_api is defined and item.deployment_sui_node_api != ""
   notify: restart_app
 
 # - name: Debug variables
@@ -106,9 +95,6 @@
     - { service_name: "{{ deployment_service_1 }}", deployment_workdir: "{{ deployment_workdir_1 }}" }
     - { service_name: "{{ deployment_service_2 }}", deployment_workdir: "{{ deployment_workdir_2 }}" }
     - { service_name: "{{ deployment_service_3 }}", deployment_workdir: "{{ deployment_workdir_3 }}" }
-  when: 
-    - item.service_name is defined and item.service_name != ""
-    - item.deployment_workdir is defined and item.deployment_workdir != ""
   notify: restart_app
 
 - name: Ensure systemd services are started and enabled
@@ -123,14 +109,3 @@
     - { service_name: "{{ deployment_service_1 }}" }
     - { service_name: "{{ deployment_service_2 }}" }
     - { service_name: "{{ deployment_service_3 }}" }
-  when: item.service_name is defined and item.service_name != ""
-
-- name: restart_app
-  ansible.builtin.systemd:
-    name: "{{ item.service_name }}"
-    state: restarted
-  with_items:
-    - { service_name: "{{ deployment_service_1 }}" }
-    - { service_name: "{{ deployment_service_2 }}" }
-    - { service_name: "{{ deployment_service_3 }}" }
-  when: item.service_name is defined and item.service_name != ""
