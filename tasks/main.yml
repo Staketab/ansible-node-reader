@@ -7,7 +7,7 @@
     state: directory
     mode: 0755
   with_items:
-    - "{{ deployment_workdir_1 }}"
+    - "{{ deployment_workdir }}"
     # - "{{ deployment_workdir_2 }}"
     # - "{{ deployment_workdir_3 }}"
 
@@ -52,7 +52,7 @@
     group: "{{ deployment_group }}"
     mode: 0755
   with_items:
-    - { src: "{{ deployment_artifact }}", dest: "{{ deployment_workdir_1 }}/app.jar" }
+    - { src: "{{ deployment_artifact }}", dest: "{{ deployment_workdir }}/app.jar" }
     # - { src: "{{ deployment_artifact }}", dest: "{{ deployment_workdir_2 }}/app.jar" }
     # - { src: "{{ deployment_artifact }}", dest: "{{ deployment_workdir_3 }}/app.jar" }
   notify: restart_app
@@ -67,7 +67,7 @@
     group: "{{ deployment_group }}"
     mode: 0640
   with_items:
-    - { dest: "{{ deployment_workdir_1 }}/.env", deployment_port: "{{ deployment_port_1 }}", deployment_ordinal: "{{ deployment_ordinal_1 }}", deployment_sui_node_api: "{{ deployment_sui_node_api_1 }}" }
+    - { dest: "{{ deployment_workdir }}/.env", deployment_port: "{{ deployment_port }}" }
     # - { dest: "{{ deployment_workdir_2 }}/.env", deployment_port: "{{ deployment_port_2 }}", deployment_ordinal: "{{ deployment_ordinal_2 }}", deployment_sui_node_api: "{{ deployment_sui_node_api_2 }}" }
     # - { dest: "{{ deployment_workdir_3 }}/.env", deployment_port: "{{ deployment_port_3 }}", deployment_ordinal: "{{ deployment_ordinal_3 }}", deployment_sui_node_api: "{{ deployment_sui_node_api_3 }}" }
   notify: restart_app
@@ -92,7 +92,7 @@
     group: root
     mode: 0644
   with_items:
-    - { service_name: "{{ deployment_service_1 }}", deployment_workdir: "{{ deployment_workdir_1 }}" }
+    - { service_name: "{{ deployment_service }}", deployment_workdir: "{{ deployment_workdir }}" }
     # - { service_name: "{{ deployment_service_2 }}", deployment_workdir: "{{ deployment_workdir_2 }}" }
     # - { service_name: "{{ deployment_service_3 }}", deployment_workdir: "{{ deployment_workdir_3 }}" }
   notify: restart_app
@@ -106,6 +106,6 @@
     enabled: true
     daemon_reload: true
   with_items:
-    - { service_name: "{{ deployment_service_1 }}" }
+    - { service_name: "{{ deployment_service }}" }
     # - { service_name: "{{ deployment_service_2 }}" }
     # - { service_name: "{{ deployment_service_3 }}" }

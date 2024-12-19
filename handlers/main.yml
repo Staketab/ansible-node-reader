@@ -6,6 +6,6 @@
     name: "{{ item.service_name }}"
     state: restarted
   with_items:
-    - { service_name: "{{ deployment_service_1 }}" }
+    - { service_name: "{{ deployment_service }}" }
     # - { service_name: "{{ deployment_service_2 }}" }
     # - { service_name: "{{ deployment_service_3 }}" }
